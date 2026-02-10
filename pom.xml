@@ -12,6 +12,7 @@
 
     <name>Cattlelog</name>
     <description>Persists Minestom player data in cow-themed NBT files</description>
+    <url>https://github.com/Quiet-Terminal-Interactive/Cattlelog</url>
 
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
@@ -28,12 +29,77 @@
         </dependency>
     </dependencies>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/Quiet-Terminal-Interactive/Cattlelog.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Quiet-Terminal-Interactive/Cattlelog.git</developerConnection>
+        <url>https://github.com/Quiet-Terminal-Interactive/Cattlelog/tree/main</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Kohan Mathers</name>
+            <email>kohanmathersmcgonnell@gmail.com</email>
+            <organization>Quiet Terminal Interactive</organization>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals><goal>jar-no-fork</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals><goal>jar</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals><goal>sign</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <deploymentName>Cattlelog</deploymentName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

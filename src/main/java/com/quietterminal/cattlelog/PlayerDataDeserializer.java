@@ -10,12 +10,26 @@ import net.minestom.server.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Restores a {@link Player}'s state from a {@link CompoundBinaryTag} loaded
+ * from a {@code .cow} file.
+ *
+ * <p>Applies health, player stats, position, and inventory data using the
+ * schema defined in {@link CowSchema}. Files with an unrecognized schema
+ * version are skipped with a warning.</p>
+ */
 public final class PlayerDataDeserializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDataDeserializer.class);
 
     private PlayerDataDeserializer() {}
 
+    /**
+     * Deserializes the given compound tag and applies it to the player.
+     *
+     * @param player the player to restore data to
+     * @param cow    the compound tag read from the player's {@code .cow} file
+     */
     public static void deserialize(Player player, CompoundBinaryTag cow) {
         int version = cow.getInt(CowSchema.SCHEMA_VERSION, 0);
         if (version < 1) {

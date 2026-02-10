@@ -11,6 +11,16 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 
+/**
+ * Entry point for the Cattlelog player-data persistence library.
+ *
+ * <p>Call {@link #initialize()} or {@link #initialize(Path)} once during server
+ * startup to begin automatically saving and restoring player data in
+ * {@code .cow} NBT files.</p>
+ *
+ * <p>Optionally call {@link #enablePhysicalCows()} after initialization to
+ * spawn cow entities at each player's last known position when they disconnect.</p>
+ */
 public final class Cattlelog {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Cattlelog.class);
@@ -19,10 +29,25 @@ public final class Cattlelog {
 
     private Cattlelog() {}
 
+    /**
+     * Initializes Cattlelog with the default barn directory ({@code barn/}).
+     *
+     * @see #initialize(Path)
+     */
     public static void initialize() {
         initialize(Path.of(DEFAULT_BARN));
     }
 
+    /**
+     * Initializes Cattlelog with a custom barn directory.
+     *
+     * <p>Creates the directory if it does not exist and registers event listeners
+     * that automatically save player data on disconnect and restore it on first
+     * spawn.</p>
+     *
+     * @param barnDirectory the directory where {@code .cow} files are stored
+     * @throws RuntimeException if the barn directory cannot be created
+     */
     public static void initialize(Path barnDirectory) {
         fileManager = new CowFileManager(barnDirectory);
 
@@ -56,6 +81,16 @@ public final class Cattlelog {
         LOGGER.info("Cattlelog initialized - barn at {}", barnDirectory.toAbsolutePath());
     }
 
+    /**
+     * Enables physical cow entities that represent offline players in the world.
+     *
+     * <p>When a player disconnects, a named cow is spawned at their last position.
+     * When they reconnect, the cow is removed. Must be called after
+     * {@link #initialize()}.</p>
+     *
+     * @return the {@link CowHerd} managing the spawned cow entities
+     * @throws IllegalStateException if {@link #initialize()} has not been called
+     */
     public static CowHerd enablePhysicalCows() {
         if (fileManager == null) {
             throw new IllegalStateException("Call Cattlelog.initialize() before enablePhysicalCows()");

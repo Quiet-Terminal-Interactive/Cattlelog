@@ -6,10 +6,23 @@ import net.kyori.adventure.nbt.ListBinaryTag;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
 
+/**
+ * Serializes a {@link Player}'s state into a {@link CompoundBinaryTag} for
+ * storage in a {@code .cow} file.
+ *
+ * <p>The resulting tag includes health, player stats, position, and inventory
+ * data keyed using the names defined in {@link CowSchema}.</p>
+ */
 public final class PlayerDataSerializer {
 
     private PlayerDataSerializer() {}
 
+    /**
+     * Serializes the given player's data into a compound binary tag.
+     *
+     * @param player the player to serialize
+     * @return a compound tag containing all persisted player data
+     */
     public static CompoundBinaryTag serialize(Player player) {
         return CompoundBinaryTag.builder()
                 .putString(CowSchema.ID, CowSchema.ID_VALUE)
