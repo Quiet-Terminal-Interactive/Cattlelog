@@ -21,7 +21,7 @@ public final class CowSchema {
     /** Schema version tag for forward-compatibility checks. */
     public static final String SCHEMA_VERSION = "CattlelogVersion";
     /** The current schema version. */
-    public static final int CURRENT_VERSION = 1;
+    public static final int CURRENT_VERSION = 2;
     /** Compound tag containing player stats (food, saturation, level, XP, game mode). */
     public static final String BRANDING_IRON = "BrandingIron";
     /** Food level within the {@link #BRANDING_IRON} compound. */

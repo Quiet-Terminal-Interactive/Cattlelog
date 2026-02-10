@@ -5,13 +5,14 @@ import net.kyori.adventure.nbt.CompoundBinaryTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -56,20 +57,20 @@ public final class CowFileManager {
     }
 
     /**
-     * Saves the given NBT data to the player's {@code .cow} file.
+     * Saves the given NBT data to the player's {@code .cow} file using
+     * Huffman-compressed moo encoding.
      *
      * @param playerUuid the player's UUID
      * @param data       the compound tag to write
      */
     public void save(UUID playerUuid, CompoundBinaryTag data) {
         Path path = cowFilePath(playerUuid);
-        try (OutputStream out = Files.newOutputStream(path)) {
-            BinaryTagIO.writer().writeNamed(
-                    java.util.Map.entry("", data),
-                    out,
-                    BinaryTagIO.Compression.GZIP
-            );
-            LOGGER.debug("Saved cow file for {}", playerUuid);
+        try {
+            byte[] nbtBytes = nbtToBytes(data);
+            String mooText = MooCodec.encode(nbtBytes);
+            Files.writeString(path, mooText);
+            LOGGER.debug("Saved cow file for {} ({} bytes -> {} moos)",
+                    playerUuid, nbtBytes.length, mooText.length());
         } catch (IOException e) {
             LOGGER.error("Failed to save cow file for {}", playerUuid, e);
         }
@@ -77,6 +78,9 @@ public final class CowFileManager {
 
     /**
      * Loads the NBT data from the player's {@code .cow} file, if it exists.
+     *
+     * <p>Supports both the v2 moo-encoded format and the legacy v1 GZIP NBT
+     * format for backward compatibility.</p>
      *
      * @param playerUuid the player's UUID
      * @return the compound tag, or empty if the file does not exist or is unreadable
@@ -88,14 +92,46 @@ public final class CowFileManager {
             return Optional.empty();
         }
 
-        try (InputStream in = Files.newInputStream(path)) {
-            var named = BinaryTagIO.reader().readNamed(in, BinaryTagIO.Compression.GZIP);
-            LOGGER.debug("Loaded cow file for {}", playerUuid);
-            return Optional.of(named.getValue());
+        try {
+            byte[] fileContent = Files.readAllBytes(path);
+
+            byte[] nbtBytes;
+            if (MooCodec.isMooFile(fileContent)) {
+                String mooText = new String(fileContent);
+                nbtBytes = MooCodec.decode(mooText);
+                LOGGER.debug("Loaded moo-encoded cow file for {}", playerUuid);
+            } else {
+                var named = BinaryTagIO.reader().readNamed(
+                        new ByteArrayInputStream(fileContent),
+                        BinaryTagIO.Compression.GZIP
+                );
+                LOGGER.debug("Loaded legacy cow file for {}", playerUuid);
+                return Optional.of(named.getValue());
+            }
+
+            return Optional.of(bytesToNbt(nbtBytes));
         } catch (IOException e) {
             LOGGER.error("Failed to read cow file for {} (corrupted barn?), skipping", playerUuid, e);
             return Optional.empty();
         }
+    }
+
+    static byte[] nbtToBytes(CompoundBinaryTag tag) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        BinaryTagIO.writer().writeNamed(
+                Map.entry("", tag),
+                baos,
+                BinaryTagIO.Compression.GZIP
+        );
+        return baos.toByteArray();
+    }
+
+    static CompoundBinaryTag bytesToNbt(byte[] bytes) throws IOException {
+        var named = BinaryTagIO.reader().readNamed(
+                new ByteArrayInputStream(bytes),
+                BinaryTagIO.Compression.GZIP
+        );
+        return named.getValue();
     }
 
     /**
