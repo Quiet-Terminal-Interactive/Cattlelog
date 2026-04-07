@@ -5,6 +5,8 @@ import net.kyori.adventure.nbt.CompoundBinaryTag;
 import net.kyori.adventure.nbt.ListBinaryTag;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
+import net.minestom.server.potion.Potion;
+import net.minestom.server.potion.TimedPotion;
 
 /**
  * Serializes a {@link Player}'s state into a {@link CompoundBinaryTag} for
@@ -32,6 +34,7 @@ public final class PlayerDataSerializer {
                 .put(CowSchema.BRANDING_IRON, serializeBrandingIron(player))
                 .put(CowSchema.PASTURE, serializePasture(player))
                 .put(CowSchema.UDDER, serializeUdder(player))
+                .put(CowSchema.BRANDS, serializeEffects(player))
                 .build();
     }
 
@@ -71,6 +74,27 @@ public final class PlayerDataSerializer {
                 entryBuilder.put(key, itemNbt.get(key));
             }
             builder.add(entryBuilder.build());
+        }
+
+        return builder.build();
+    }
+
+    private static ListBinaryTag serializeEffects(Player player) {
+        var effects = player.getActiveEffects();
+        var builder = ListBinaryTag.builder(BinaryTagTypes.COMPOUND);
+
+        for (TimedPotion tp : effects) {
+            Potion potion = tp.potion();
+            CompoundBinaryTag nbt = CompoundBinaryTag.builder()
+                    .putInt(CowSchema.EFFECT, potion.effect().id())
+                    .putInt(CowSchema.AMPLIFIER, potion.amplifier())
+                    .putInt(CowSchema.DURATION, potion.duration())
+                    .putBoolean(CowSchema.HAS_BLEND, potion.hasBlend())
+                    .putBoolean(CowSchema.HAS_ICON, potion.hasIcon())
+                    .putBoolean(CowSchema.HAS_PARTICLES, potion.hasParticles())
+                    .putBoolean(CowSchema.IS_AMBIENT, potion.isAmbient())
+                    .build();
+            builder.add(nbt);
         }
 
         return builder.build();

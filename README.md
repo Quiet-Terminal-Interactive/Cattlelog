@@ -26,7 +26,7 @@ Cattlelog.initialize(Path.of("data", "player_cows"));
 ## What Gets Saved
 
 | Data            | NBT Key           |
-| --------------- | ----------------- |
+|-----------------|-------------------|
 | Health          | `Health`          |
 | Food level      | `FeedLevel`       |
 | Food saturation | `FeedSaturation`  |
@@ -35,6 +35,7 @@ Cattlelog.initialize(Path.of("data", "player_cows"));
 | Game mode       | `Temperament`     |
 | Position        | `Pasture`         |
 | Inventory       | `Udder`           |
+| Effects         | `Brands`          |
 
 All player stats live under a `BrandingIron` compound.
 

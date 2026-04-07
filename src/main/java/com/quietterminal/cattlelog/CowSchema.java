@@ -50,4 +50,20 @@ public final class CowSchema {
     public static final String UDDER = "Udder";
     /** Inventory slot index within each item entry. */
     public static final String SLOT = "Slot";
+
+    public static final String BRANDS = "Brands";
+
+    public static final String EFFECT = "effect";
+
+    public static final String AMPLIFIER = "amplifier";
+
+    public static final String DURATION = "duration";
+
+    public static final String HAS_BLEND = "hasBlend";
+
+    public static final String HAS_ICON = "hasIcon";
+
+    public static final String HAS_PARTICLES = "hasParticles";
+
+    public static final String IS_AMBIENT = "isAmbient";
 }
