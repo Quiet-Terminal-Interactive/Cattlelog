@@ -7,6 +7,8 @@ import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
+import net.minestom.server.potion.Potion;
+import net.minestom.server.potion.PotionEffect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +50,9 @@ public final class PlayerDataDeserializer {
 
         ListBinaryTag udder = cow.getList(CowSchema.UDDER);
         deserializeUdder(player, udder);
+
+        ListBinaryTag brands = cow.getList(CowSchema.BRANDS);
+        deserializeBrands(player, brands);
     }
 
     private static void deserializeBrandingIron(Player player, CompoundBinaryTag branding) {
@@ -105,6 +110,40 @@ public final class PlayerDataDeserializer {
             } catch (Exception e) {
                 LOGGER.warn("Failed to deserialize item in slot {} from cow file, skipping", slot, e);
             }
+        }
+    }
+
+    private static void deserializeBrands(Player player, ListBinaryTag brands) {
+        for (BinaryTag entry : brands) {
+            if (!(entry instanceof CompoundBinaryTag compound)) continue;
+            PotionEffect effect = PotionEffect.fromId(compound.getInt(CowSchema.EFFECT, 0));
+            if (effect == null) return;
+            int amplifier = compound.getInt(CowSchema.AMPLIFIER, 0);
+            int duration = compound.getInt(CowSchema.DURATION, 0);
+            boolean hasBlend = compound.getBoolean(CowSchema.HAS_BLEND, false);
+            boolean hasIcon = compound.getBoolean(CowSchema.HAS_ICON, false);
+            boolean hasParticles = compound.getBoolean(CowSchema.HAS_PARTICLES, false);
+            boolean isAmbient = compound.getBoolean(CowSchema.IS_AMBIENT, false);
+
+            byte flags = 0;
+
+            if (hasBlend) {
+                flags = (byte) (flags | Potion.BLEND_FLAG);
+            }
+            if (hasIcon) {
+                flags = (byte) (flags | Potion.ICON_FLAG);
+            }
+            if (hasParticles) {
+                flags = (byte) (flags | Potion.PARTICLES_FLAG);
+            }
+            if (isAmbient) {
+                flags = (byte) (flags | Potion.AMBIENT_FLAG);
+            }
+
+            Potion potion = flags != 0
+                    ? new Potion(effect, amplifier, duration, flags)
+                    : new Potion(effect, amplifier, duration);
+            player.addEffect(potion);
         }
     }
 }
