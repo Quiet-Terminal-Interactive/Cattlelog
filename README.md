@@ -36,6 +36,7 @@ Cattlelog.initialize(Path.of("data", "player_cows"));
 | Position        | `Pasture`         |
 | Inventory       | `Udder`           |
 | Effects         | `Brands`          |
+| Held slot       | `GrazingSlot`     |
 
 All player stats live under a `BrandingIron` compound.
 

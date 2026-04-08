@@ -60,6 +60,7 @@ public final class PlayerDataDeserializer {
         player.setFoodSaturation(branding.getFloat(CowSchema.SATURATION, 5.0f));
         player.setLevel(branding.getInt(CowSchema.LEVEL, 0));
         player.setExp(branding.getFloat(CowSchema.EXP, 0.0f));
+        player.setHeldItemSlot(branding.getByte(CowSchema.GRAZING_SLOT, (byte) 1));
 
         String gameModeName = branding.getString(CowSchema.GAME_MODE, "SURVIVAL");
         try {

@@ -45,6 +45,7 @@ public final class PlayerDataSerializer {
                 .putInt(CowSchema.LEVEL, player.getLevel())
                 .putFloat(CowSchema.EXP, player.getExp())
                 .putString(CowSchema.GAME_MODE, player.getGameMode().name())
+                .putByte(CowSchema.GRAZING_SLOT, player.getHeldSlot())
                 .build();
     }
 

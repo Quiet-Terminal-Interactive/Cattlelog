@@ -66,4 +66,6 @@ public final class CowSchema {
     public static final String HAS_PARTICLES = "hasParticles";
 
     public static final String IS_AMBIENT = "isAmbient";
+
+    public static final String GRAZING_SLOT = "GrazingSlot";
 }
