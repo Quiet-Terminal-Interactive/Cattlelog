@@ -74,4 +74,6 @@ public final class CowSchema {
     public static final String RESPAWN_X = "x";
     public static final String RESPAWN_Y = "y";
     public static final String RESPAWN_Z = "z";
+    public static final String RESPAWN_YAW = "yaw";
+    public static final String RESPAWN_PITCH = "pitch";
 }

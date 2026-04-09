@@ -88,7 +88,9 @@ public final class PlayerDataDeserializer {
         Pos respawn = new Pos(
                 pasture.getDouble(CowSchema.RESPAWN_X, 0),
                 pasture.getDouble(CowSchema.RESPAWN_Y, 64),
-                pasture.getDouble(CowSchema.RESPAWN_Z, 0)
+                pasture.getDouble(CowSchema.RESPAWN_Z, 0),
+                pasture.getFloat(CowSchema.RESPAWN_YAW, 0),
+                pasture.getFloat(CowSchema.RESPAWN_PITCH, 0)
         );
         player.teleport(pos);
         player.setRespawnPoint(respawn);

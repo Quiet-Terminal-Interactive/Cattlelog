@@ -64,6 +64,8 @@ public final class PlayerDataSerializer {
                 .putDouble(CowSchema.RESPAWN_X, respawn.x())
                 .putDouble(CowSchema.RESPAWN_Y, respawn.y())
                 .putDouble(CowSchema.RESPAWN_Z, respawn.z())
+                .putFloat(CowSchema.RESPAWN_YAW, respawn.yaw())
+                .putFloat(CowSchema.RESPAWN_PITCH, respawn.pitch())
                 .build();
     }
 
