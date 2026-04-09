@@ -61,11 +61,13 @@ public final class PlayerDataSerializer {
                 .putDouble(CowSchema.POS_Z, pos.z())
                 .putFloat(CowSchema.POS_YAW, pos.yaw())
                 .putFloat(CowSchema.POS_PITCH, pos.pitch())
-                .putDouble(CowSchema.RESPAWN_X, respawn.x())
-                .putDouble(CowSchema.RESPAWN_Y, respawn.y())
-                .putDouble(CowSchema.RESPAWN_Z, respawn.z())
-                .putFloat(CowSchema.RESPAWN_YAW, respawn.yaw())
-                .putFloat(CowSchema.RESPAWN_PITCH, respawn.pitch())
+                .put(CowSchema.RESPAWN_PASTURE, CompoundBinaryTag.builder()
+                        .putDouble(CowSchema.RESPAWN_X, respawn.x())
+                        .putDouble(CowSchema.RESPAWN_Y, respawn.y())
+                        .putDouble(CowSchema.RESPAWN_Z, respawn.z())
+                        .putFloat(CowSchema.RESPAWN_YAW, respawn.yaw())
+                        .putFloat(CowSchema.RESPAWN_PITCH, respawn.pitch())
+                        .build())
                 .build();
     }
 

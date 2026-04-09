@@ -85,12 +85,13 @@ public final class PlayerDataDeserializer {
                 pasture.getFloat(CowSchema.POS_YAW, 0.0f),
                 pasture.getFloat(CowSchema.POS_PITCH, 0.0f)
         );
+        CompoundBinaryTag respawnTag = pasture.getCompound(CowSchema.RESPAWN_PASTURE);
         Pos respawn = new Pos(
-                pasture.getDouble(CowSchema.RESPAWN_X, 0),
-                pasture.getDouble(CowSchema.RESPAWN_Y, 64),
-                pasture.getDouble(CowSchema.RESPAWN_Z, 0),
-                pasture.getFloat(CowSchema.RESPAWN_YAW, 0),
-                pasture.getFloat(CowSchema.RESPAWN_PITCH, 0)
+                respawnTag.getDouble(CowSchema.RESPAWN_X, 0),
+                respawnTag.getDouble(CowSchema.RESPAWN_Y, 64),
+                respawnTag.getDouble(CowSchema.RESPAWN_Z, 0),
+                respawnTag.getFloat(CowSchema.RESPAWN_YAW, 0),
+                respawnTag.getFloat(CowSchema.RESPAWN_PITCH, 0)
         );
         player.teleport(pos);
         player.setRespawnPoint(respawn);
