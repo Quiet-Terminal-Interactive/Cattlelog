@@ -46,17 +46,24 @@ public final class PlayerDataSerializer {
                 .putFloat(CowSchema.EXP, player.getExp())
                 .putString(CowSchema.GAME_MODE, player.getGameMode().name())
                 .putByte(CowSchema.GRAZING_SLOT, player.getHeldSlot())
+                .putInt(CowSchema.AIR, player.getEntityMeta().getAirTicks())
+                .putBoolean(CowSchema.FLYING, player.getEntityMeta().isFlyingWithElytra())
+                .putInt(CowSchema.BURNING, player.getFireTicks())
                 .build();
     }
 
     private static CompoundBinaryTag serializePasture(Player player) {
         var pos = player.getPosition();
+        var respawn = player.getRespawnPoint();
         return CompoundBinaryTag.builder()
                 .putDouble(CowSchema.POS_X, pos.x())
                 .putDouble(CowSchema.POS_Y, pos.y())
                 .putDouble(CowSchema.POS_Z, pos.z())
                 .putFloat(CowSchema.POS_YAW, pos.yaw())
                 .putFloat(CowSchema.POS_PITCH, pos.pitch())
+                .putDouble(CowSchema.RESPAWN_X, respawn.x())
+                .putDouble(CowSchema.RESPAWN_Y, respawn.y())
+                .putDouble(CowSchema.RESPAWN_Z, respawn.z())
                 .build();
     }
 

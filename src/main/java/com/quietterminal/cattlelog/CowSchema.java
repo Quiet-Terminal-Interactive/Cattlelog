@@ -68,4 +68,16 @@ public final class CowSchema {
     public static final String IS_AMBIENT = "isAmbient";
 
     public static final String GRAZING_SLOT = "GrazingSlot";
+
+    public static final String AIR = "Air";
+
+    public static final String FLYING = "Flying";
+
+    public static final String BURNING = "Burning";
+
+    public static final String RESPAWN_X = "rx";
+
+    public static final String RESPAWN_Y = "ry";
+
+    public static final String RESPAWN_Z = "rz";
 }

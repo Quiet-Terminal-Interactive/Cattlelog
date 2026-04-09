@@ -61,6 +61,9 @@ public final class PlayerDataDeserializer {
         player.setLevel(branding.getInt(CowSchema.LEVEL, 0));
         player.setExp(branding.getFloat(CowSchema.EXP, 0.0f));
         player.setHeldItemSlot(branding.getByte(CowSchema.GRAZING_SLOT, (byte) 1));
+        player.setFireTicks(branding.getInt(CowSchema.BURNING, 0));
+        player.getEntityMeta().setAirTicks(branding.getInt(CowSchema.AIR, 300));
+        player.getEntityMeta().setFlyingWithElytra(branding.getBoolean(CowSchema.FLYING, false));
 
         String gameModeName = branding.getString(CowSchema.GAME_MODE, "SURVIVAL");
         try {
@@ -82,7 +85,13 @@ public final class PlayerDataDeserializer {
                 pasture.getFloat(CowSchema.POS_YAW, 0.0f),
                 pasture.getFloat(CowSchema.POS_PITCH, 0.0f)
         );
+        Pos respawn = new Pos(
+                pasture.getDouble(CowSchema.RESPAWN_X, 0),
+                pasture.getDouble(CowSchema.RESPAWN_Y, 64),
+                pasture.getDouble(CowSchema.RESPAWN_Z, 0)
+        );
         player.teleport(pos);
+        player.setRespawnPoint(respawn);
     }
 
     private static void deserializeUdder(Player player, ListBinaryTag udder) {
