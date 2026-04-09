@@ -66,14 +66,24 @@ public final class CowSchema {
     public static final String HAS_PARTICLES = "hasParticles";
     /** Whether the effect is ambient (beacon-sourced) within each entry of the {@link #BRANDS} list. */
     public static final String IS_AMBIENT = "isAmbient";
+    /** The selected hotbar slot index. */
     public static final String GRAZING_SLOT = "GrazingSlot";
+    /** Remaining air supply in ticks. */
     public static final String AIR = "Air";
+    /** Whether the player is currently using an elytra (gliding). */
     public static final String LEAPING = "Leaping";
+    /** Whether the player is currently on fire. */
     public static final String SCORCHING = "Scorching";
+    /** Compound tag containing the player's respawn position data. */
     public static final String RESPAWN_PASTURE = "RespawnPasture";
+    /** X coordinate within the {@link #RESPAWN_PASTURE} compound. */
     public static final String RESPAWN_X = "x";
+    /** Y coordinate within the {@link #RESPAWN_PASTURE} compound. */
     public static final String RESPAWN_Y = "y";
+    /** Z coordinate within the {@link #RESPAWN_PASTURE} compound. */
     public static final String RESPAWN_Z = "z";
+    /** Yaw rotation within the {@link #RESPAWN_PASTURE} compound. */
     public static final String RESPAWN_YAW = "yaw";
+    /** Pitch rotation within the {@link #RESPAWN_PASTURE} compound. */
     public static final String RESPAWN_PITCH = "pitch";
 }
