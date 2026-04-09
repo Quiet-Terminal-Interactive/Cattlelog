@@ -110,6 +110,7 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <deploymentName>Cattlelog</deploymentName>
+                    <autoPublish>false</autoPublish>
                 </configuration>
             </plugin>
         </plugins>
