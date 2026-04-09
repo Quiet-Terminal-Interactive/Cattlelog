@@ -50,21 +50,21 @@ public final class CowSchema {
     public static final String UDDER = "Udder";
     /** Inventory slot index within each item entry. */
     public static final String SLOT = "Slot";
-
+    /** List tag containing active potion effects. */
     public static final String BRANDS = "Brands";
-
+    /** Effect type identifier within each entry of the {@link #BRANDS} list. */
     public static final String EFFECT = "effect";
-
+    /** Amplifier (level - 1) within each entry of the {@link #BRANDS} list. */
     public static final String AMPLIFIER = "amplifier";
-
+    /** Remaining duration in ticks within each entry of the {@link #BRANDS} list. */
     public static final String DURATION = "duration";
-
+    /** Whether the effect uses a blend within each entry of the {@link #BRANDS} list. */
     public static final String HAS_BLEND = "hasBlend";
-
+    /** Whether the effect shows an icon within each entry of the {@link #BRANDS} list. */
     public static final String HAS_ICON = "hasIcon";
-
+    /** Whether the effect shows particles within each entry of the {@link #BRANDS} list. */
     public static final String HAS_PARTICLES = "hasParticles";
-
+    /** Whether the effect is ambient (beacon-sourced) within each entry of the {@link #BRANDS} list. */
     public static final String IS_AMBIENT = "isAmbient";
 
     public static final String GRAZING_SLOT = "GrazingSlot";
